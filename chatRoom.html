@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <!-- Css files -->
+    <link rel="stylesheet" href="grid.css">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        var user;
+        var friend;
+
+        if (localStorage.getItem("user") != null) {
+            user = localStorage.getItem("user");
+
+            friend = localStorage.getItem("friend");
+
+            sessionStorage.setItem("user", user);
+
+            sessionStorage.setItem("friend", friend);
+
+            localStorage.clear();
+        }
+        else {
+            user = sessionStorage.getItem("user");
+
+            friend = sessionStorage.getItem("friend");
+
+        }
+
+        function load() {
+
+
+            document.title = friend;
+
+            $.ajax({
+                type: 'POST',
+                url: 'http://stastation.synology.me/restFull.php',
+                data: { function: "refresh", friend: friend, user: user },
+                success: function (response) {
+                    var obj = JSON.parse(response);
+                    document.getElementById("result_msg").innerHTML = obj.data;
+                    var objDiv = document.getElementById("result_msg");
+                    objDiv.scrollTop = objDiv.scrollHeight;
+                }
+            });
+        }
+
+        function insert() {
+           
+                var message = document.getElementById("message").value;
+                message = message.trim();
+                if (message != "") {
+                    if (navigator.connection.type != "none") {
+                        $.ajax({
+                            type: 'POST',
+                            url: 'http://stastation.synology.me/restFull.php',
+                            data: { friend: friend, user: user, message: message, function: "insert" },
+                            success: function (response2) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: 'http://stastation.synology.me/restFull.php',
+                                    data: { friend: friend, user: user, function: "refresh" },
+                                    success: function (response) {
+                                        var obj = JSON.parse(response);
+                                        document.getElementById("result_msg").innerHTML = obj.data;
+                                        var objDiv = document.getElementById("result_msg");
+                                        objDiv.scrollTop = objDiv.scrollHeight;
+                                    }
+                                });
+                            }
+                        });
+                        document.getElementById("message").value = "";
+                    }
+                    else { alert("you are not connected to the internet"); }
+                }
+        }
+
+        if (typeof (EventSource) !== "undefined") {
+            var link = "http://stastation.synology.me/monitor.php?user=" + user + "&friend=" + friend;
+            var source = new EventSource(link);
+
+            source.onmessage = function (event) {
+                
+                if (event.data != '') {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://stastation.synology.me/restFull.php',
+                        data: { friend: friend, user: user, function: "refresh" },
+                        success: function (response) {
+                            var obj = JSON.parse(response);
+
+                            document.getElementById("result_msg").innerHTML = obj.data;
+                            var objDiv = document.getElementById("result_msg");
+                            objDiv.scrollTop = objDiv.scrollHeight;
+                        }
+                    });
+                }
+            };
+        }
+
+    </script>
+
+</head>
+
+<body onload="load()">
+    <!-- nieuwe desgin code -->
+    <div class="bg">
+        <div class="container">
+            <br><br>
+            <!-- <a class="btn btn-3" href="main.html">Back</a> -->
+            <div class="card_container">
+                <div class="col-12">
+                    <div class="chatbox" id="result_msg">
+
+                    </div>
+                    <input id="message" placeholder="Type a message" class="hat_input" type="text">
+                    <button onclick="insert()" class="btn btn-1 inline">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

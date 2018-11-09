@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script type="text/javascript" src="scripts/index.js"></script>
+    <script>
+
+        function link(link) {
+            window.open(link, "_self");
+        }
+    </script>
+    <!--
+        Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
+        For details, see http://go.microsoft.com/fwlink/?LinkID=617521
+    -->
+
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <!-- Css files -->
+    <link rel="stylesheet" href="grid.css">
+    <link rel="stylesheet" href="style.css">
+
+    <title>MI3</title>
+</head>
+    <body>
+        <div class="app">
+            <div class="bg">
+                <div class="container">
+                    <div class="row">
+                        <div class="middle center_mob">
+                            <div class="card center">
+
+                                <h3 class="title">Welcome on the chat app.</h3>
+                                <div class="row"></div>
+                                <h2 class="margin">I'm new on the app</h2>
+                                <button onclick="link('createAccount.html')" class="btn btn-1" name="Create">Create account</button>
+                                <h1 class="margin">Or</h1>
+                                <h2 class="margin">Already have an account</h2>
+                                <button onclick="link('login.html')" class="btn btn-2" name="Login">Login</button>
+                                <br><br>
+
+                            </div>
+                            <br>
+                            <p class="little center">Created by Logan Bogaert</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </body>
+</html>

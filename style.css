@@ -1,0 +1,278 @@
+/* ============================
+Default 
+============================*/
+html,
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #fff;
+    height: 100%;
+}
+
+/* ============================
+Presets "margins, paddings, titles, positions, ..."
+============================*/
+.margin {
+    margin: 1em 0;
+}
+
+.mb-1 {
+    margin-bottom: 1.5em;
+}
+
+.mt-1 {
+    margin-top: 1.5em;
+}
+
+.ml-1 {
+    margin-left: 1em;
+}
+
+.inline {
+    display: inline;
+}
+
+.little {
+    font-size: 8pt;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.middle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.center_x {
+    margin: 0 auto;
+    widows: 100%;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.title {
+    color: #fff;
+    margin: 0.5em 0 1em 0;
+}
+
+.algin_left {
+    text-align: left;
+}
+
+/* ============================
+Presets for login, signup, homescreen, chatroom "login.html, signup.html, index.html, chatroom.html"
+============================*/
+.bg {
+    background: rgb(146, 94, 243);
+    background: linear-gradient(0deg, rgba(146, 94, 243, 1) 0%, rgba(248, 76, 76, 1) 100%);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: auto;
+    padding: 2em 0;
+    box-sizing: border-box;
+}
+
+.card {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 1em;
+    width: 70vh;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.card_container {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 1em;
+    box-sizing: border-box;
+    height: 100%;
+    position: relative;
+}
+
+.card_container::before,
+.card_container::after {
+    display: table;
+    content: "";
+}
+
+.card_container::after {
+    clear: both;
+}
+
+/* ============================
+homescreen when logged in "main.html"
+============================*/
+.friends,
+.searched_friends {
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+/* ============================
+chatroom "chatroom.html"
+============================*/
+.chatbox {
+    background-color: rgba(255, 255, 255, 1);
+    width: 100%;
+    color: rgb(61, 61, 61);
+    font-size: 13pt;
+    border-radius: 5px;
+    padding: 0em 1.5em;
+    height: 60vh;
+    overflow-y: scroll;
+    box-sizing: border-box;
+
+    scrollbar-face-color: #ff8c00;
+    scrollbar-track-color: #fff8dc;
+    scrollbar-arrow-color: #ffffff;
+    scrollbar-highlight-color: #fff8dc;
+    scrollbar-shadow-color: #d2691e;
+    scrollbar-3dlight-color: #ffebcd;
+    scrollbar-darkshadow-color: #8b0000;
+}
+
+.card_container.edit_mr {
+    margin-top: 1em;
+}
+
+.username {
+    color: rgb(67, 81, 149);
+}
+
+.chatbox::-webkit-scrollbar {
+    width: 10px;
+}
+
+.chatbox::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.1); 
+    border-radius: 10px;
+}
+
+.chatbox::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgba(105, 105, 105, 0.5);
+}
+
+/* ============================
+Forms, buttons, a, textareas 
+============================*/
+input {
+    padding: 0.8em 1em;
+    width: 100%;
+    font-size: 9pt;
+    margin: 1em 0;
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input:focus,
+textarea:focus {
+    box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+    border: 0px solid rgba(81, 203, 238, 1);
+    /* border-radius: 5px; */
+}
+
+button,
+a {
+    border-radius: 5px;
+    outline: none;
+    padding: 0.5em 1em;
+    border: none;
+    display: inline-block;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.btn-login {
+    width: 100%;
+    display: block;
+    box-sizing: border-box;
+    text-decoration: none;
+    text-align: center;
+}
+
+.btn {
+    padding: 0.5em 1em;
+    font-size: 10pt;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn:hover {
+    cursor: pointer;
+}
+
+.btn-1 {
+    background-color: rgb(248, 76, 76);
+    color: #fff;
+}
+
+.btn-1:hover {
+    background-color: rgb(209, 65, 65);
+}
+
+.btn-2 {
+    background-color: rgb(76, 119, 248);
+    color: #fff;
+}
+
+.btn-2:hover {
+    background-color: rgb(62, 97, 201);
+}
+
+.btn-3 {
+    background-color: rgb(122, 122, 122);
+    color: #fff;
+}
+
+.btn-3:hover {
+    background-color: rgb(103, 103, 103);
+}
+
+.btn-4 {
+    background-color: rgb(67, 202, 67);
+    color: rgb(255, 255, 255);
+}
+
+.btn-4:hover {
+    background-color: rgb(57, 172, 57);
+}
+
+
+@media screen and (max-width: 670px) {
+    #relative {
+        position: relative;
+    }
+
+    .center_mob {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .card {
+        width: 100%;
+    }
+
+    input {
+        font-size: 13pt;
+    }
+
+    button,
+    a,
+    .btn {
+        font-size: 13pt;
+    }
+
+    .chatbox {
+        font-size: 15pt;
+    }
+}

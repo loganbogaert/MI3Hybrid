@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+    <!-- Css files -->
+    <link rel="stylesheet" href="grid.css">
+    <link rel="stylesheet" href="style.css">
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="scripts/platformOverrides.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+
+        var antwoord;
+        var name;
+        var id;
+        var aantal_rows = 0;
+        var array = [];
+        var arrayfriends = [];
+        var arrayMessages = [];
+
+        if (localStorage.getItem("names") !== null) {
+
+            name = localStorage.getItem("names");
+
+            id = localStorage.getItem("id");
+
+            localStorage.clear();
+
+            sessionStorage.setItem("names", name);
+
+            sessionStorage.setItem("id", id);
+
+        }
+        else {
+            name = sessionStorage.getItem("names");
+
+            id = sessionStorage.getItem("id");
+        }
+
+        $.ajax(
+            {
+                url: 'http://stastation.synology.me/restFull.php',
+                type: "post",
+                data: {
+                    function: "test",
+                    user: name
+                },
+                success: function (response) {
+
+                }
+            });
+
+      
+
+        function myFunction() {
+
+                var data = document.getElementById("search").value;
+
+                if (data != "") {
+                    if (navigator.connection.type != "none") {
+                        $.ajax(
+                            {
+                                url: 'http://stastation.synology.me/restFull.php',
+                                type: "post",
+                                data: {
+                                    function: "search",
+                                    user: name,
+                                    name: data
+                                },
+                                success: function (response) {
+                                    var obj = JSON.parse(response);
+                                    document.getElementById("result_friends").innerHTML = obj.HTMLResponse;
+
+                                }
+                            });
+                    }
+                    else { alert("you are not connected to the internet"); }
+                }
+                else
+                { document.getElementById("result_friends").innerHTML = ""; }
+
+                
+            
+        }
+
+        function send(user) {
+            if (navigator.connection.type != "none") {
+                localStorage.setItem("friend", user);
+
+                localStorage.setItem("user", name);
+
+                window.open("chatRoom.html", "_self");
+               
+            }
+            else { alert("you are not connected to the internet"); }
+
+
+
+        }
+
+        function Add(user, id) {
+
+            if (navigator.connection.type != "none") {
+                $.ajax(
+                    {
+                        url: 'http://stastation.synology.me/restFull.php',
+                        type: "post",
+                        data: {
+                            function: "add",
+                            user: name,
+                            friend: user
+                        },
+                        success: function (response) { location.reload(); }
+                    });
+            }
+            else { alert("you are not connected to the internet"); }
+
+        }
+
+        function logout() {
+            window.open("index.html", "_self");
+        }
+
+        function load() {
+
+            $.ajax(
+                {
+                    url: 'http://stastation.synology.me/restFull.php',
+                    type: "post",
+                    data: {
+                        function: "loadFriends",
+                        user: name
+                    },
+                    success: function (response) {
+                        var obj = JSON.parse(response);
+                        console.log(obj.HTMLResponse);
+                        document.getElementById("table").innerHTML = obj.HTMLResponse;
+                        if (typeof (EventSource) !== "undefined") {
+                            var link = "http://stastation.synology.me/monitor_main.php?user=" + name;
+                            var source = new EventSource(link);
+
+                            source.onmessage = function (event) {
+
+
+
+                                var messageNames = event.data.split(";");
+                                for (i = 0; i < messageNames.length; i++) {
+                                    var friendExists = false;
+
+                                    var amount = 0;
+
+                                    for (b = 0; b < arrayMessages.length; b++) {
+                                        if (arrayMessages[b].name == messageNames[i]) {
+                                            arrayMessages[b].amount++;
+                                            amount = arrayMessages[b].amount;
+                                            friendExists = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (!friendExists) { arrayMessages.push({ "name": messageNames[i], "amount": 1 }); amount = 1; }
+
+                                    var message = "";
+
+                                    if (amount == 1) { message = messageNames[i] + " sent you a message"; }
+                                    else { message = messageNames[i] + " sent you " + amount + " messages"; }
+
+
+                                    document.getElementById(messageNames[i]).innerHTML = message;
+                                };
+                            }
+                        }
+
+                    }
+                });
+          
+
+
+            document.getElementById("search").placeholder = "write your friend's name";
+        }
+       
+    </script>
+
+</head>
+<body onload = "load()">
+    <div class="bg">
+        <div class="container">
+            <br><br>
+            <button onclick="logout()" class="btn btn-2" name="logout">Logout</button>
+            <br><br>
+            <div class="card_container center">
+                <div class="col-6 col-6-res">
+                    <h3 class="title">Search for friends.</h3>
+                    <form method="post">
+                        <input type="text" name="search" id="search" oninput="myFunction()" placeholder="Enter a username">
+                    </form>
+                    <div class="algin_left searched_friends">
+                        <table id="result_friends" class="mt-1"></table>
+                    </div>
+                </div>
+                <div class="col-6 col-6-res">
+                    <h3 class="title">All friends.</h3>
+                    <div class="algin_left friends">
+                        <table id="table"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
