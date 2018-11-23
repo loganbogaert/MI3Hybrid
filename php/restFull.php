@@ -60,7 +60,7 @@ function create($conn)
        }
        else 
        {
-           if( mysql_errno() == 1062) {$obj->answer =  "Username already exists";} 
+           $obj->answer =  "Username already exists";
        }
     }
     // if they are empty 
