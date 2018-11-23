@@ -11,6 +11,8 @@ $password = "test";
 $database = "project";
 // Create connection
 $conn = new mysqli($servername, $username, $password,$database);
+// whitespaces weg doen 
+$_POST["user"] = trim($_POST["user"]);
 // get the name of the function to execute 
 $func = $_POST["function"];
 // execute function
@@ -124,6 +126,24 @@ function loadFriends($conn)
                     <td><br></td>
             </tr>
                 ";
+        $obj->Response .= $row["FriendWith"] . ";";
+    }
+    $json = json_encode($obj);
+
+    echo $json;
+}
+//****************************<load friend from user>**************************
+function loadFriendsKotlin($conn)
+{
+    // get username
+    $user = $_POST["user"];
+    // create sql statement
+    $sql = "SELECT FriendWith FROM friends WHERE Friend = '$user'";
+    // launch statement
+    $result = $conn->query($sql);  
+    // output data of each row
+    while($row = $result->fetch_assoc()) 
+    {
         $obj->Response .= $row["FriendWith"] . ";";
     }
     $json = json_encode($obj);
