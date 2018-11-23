@@ -58,6 +58,10 @@ function create($conn)
             // say created successfully
             $obj->answer =  "created successfully";
        }
+       else 
+       {
+           if( mysql_errno() == 1062) {$obj->answer =  "Username already exists";} 
+       }
     }
     // if they are empty 
     else{$obj->answer =  "please fill in a username and password";}
