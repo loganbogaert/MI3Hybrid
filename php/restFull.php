@@ -6,7 +6,7 @@ $servername = "localhost:3307";
 // user
 $username = "root";
 // password
-$password = "logan";
+$password = "test";
 // name of DB
 $database = "project";
 // Create connection
@@ -20,11 +20,14 @@ $conn->close();
 
 function test($conn)
 {
-  $user = $_POST["user"]. "_mp";
+    $user = $_POST["user"]. "_mp";
+    
+    // to lower
+    $user = strtolower($user);
 
-  $sql = "UPDATE $user SET Sent = 'n' WHERE Username LIKE '%%'";
+    $sql = "UPDATE $user SET Sent = 'n' WHERE Username LIKE '%%'";
 
-  $conn->query($sql);
+    $conn->query($sql);
 
 }
 //****************<creates an account>************
@@ -34,6 +37,8 @@ function create($conn)
     $user = $_POST["user"];
     // get password
     $password = $_POST["password"];
+    // to lower
+    $user = strtolower($user);
     // check if username and password are not empty
     if($user != '' && $password != '')
     {
@@ -62,6 +67,8 @@ function login($conn)
 {
     // get username
     $user = $_POST["user"];
+    // to lower
+    $user = strtolower($user);
     // get password
     $password = $_POST["password"];
     // check if password and username have been written
@@ -117,6 +124,7 @@ function loadFriends($conn)
                     <td><br></td>
             </tr>
                 ";
+        $obj->Response .= $row["FriendWith"] . ";";
     }
     $json = json_encode($obj);
 
@@ -162,6 +170,10 @@ function add($conn)
     $user = $_POST["user"];
     // friend var
     $name = $_POST["friend"];
+    // to lower
+    $user = strtolower($user);
+    // to lower
+    $name = strtolower($name);
     // sql statement
     $sql = "INSERT INTO friends (Friend, FriendWith) VALUES ('$user','$name')";
     // use statement
@@ -178,6 +190,10 @@ function refresh($conn)
     $friend = $_POST["friend"];
     // user
     $user = $_POST["user"];
+    // to lower
+    $user = strtolower($user);
+    // to lower
+    $friend = strtolower($friend);
     // tablename
     $tableName = $user ."_mp";
     // sql statement
