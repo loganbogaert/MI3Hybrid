@@ -247,6 +247,15 @@ button:hover {
     background-color: rgb(57, 172, 57);
 }
 
+.btn-5 {
+    margin: 1em 0;
+}
+
+#deleteicon {
+    color: rgb(255, 99, 71);
+    font-size: 24px;
+    cursor: pointer;
+}
 
 @media screen and (max-width: 670px) {
     #relative {

@@ -13,6 +13,7 @@
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="scripts/platformOverrides.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="icon" href="https://simplifiedalerts.com/wp-content/uploads/2017/09/SimplifiedSMS-icon-300x230.png">  
     <script>
 
         var user;
@@ -34,6 +35,10 @@
 
             friend = sessionStorage.getItem("friend");
 
+        }
+        
+        function back() {
+            window.open("main.html", "_self");
         }
 
         function load() {
@@ -119,6 +124,7 @@
             <!-- <a class="btn btn-3" href="main.html">Back</a> -->
             <div class="card_container">
                 <div class="col-12">
+                    <button onclick="back()" class="btn btn-2 btn-5" name="logout">Back</button>
                     <div class="chatbox" id="result_msg">
 
                     </div>
