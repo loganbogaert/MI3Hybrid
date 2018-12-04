@@ -123,8 +123,8 @@ function loadFriends($conn)
         $var = $row["FriendWith"];
         $obj->HTMLResponse .= "
              <tr>
-                    <td id=$var>" . $row["FriendWith"] . "</td>
-                    <td><button class=\"btn btn-2\" onclick=send('$var')>Send Message</button></td>
+                    <td id=$var><p id=\"friendLink\" onclick=send('$var')>" . $row["FriendWith"] . "</p></td>
+                    <td><a onclick=remove('$var')><i class='fa fa-trash' id='deleteicon'></i></a></td>
             </tr>
             <tr>
                     <td><br></td>
@@ -205,7 +205,27 @@ function add($conn)
     // sql statement
     $sql2 = "INSERT INTO friends (Friend, FriendWith) VALUES ('$name','$user')";
     // use statement
-    $conn->query($sql2);   
+    $conn->query($sql2);
+}
+//****************************<remove friend from user's list>**************************
+function deleteFriend($conn)
+{
+    // user var 
+    $user = $_POST["user"];
+    // friend var
+    $name = $_POST["friend"];
+    // to lower
+    $user = strtolower($user);
+    // to lower
+    $name = strtolower($name);
+    // sql statement
+    $sql = "DELETE FROM friends WHERE Friend LIKE '$user' AND FriendWith LIKE '$name'";
+    // use statement
+    $conn->query($sql);
+    // sql statement
+    $sql = "DELETE FROM friends WHERE Friend LIKE '$name' AND FriendWith LIKE '$user'";
+    // use statement
+    $conn->query($sql); 
 }
 //****************************<refresh conversation from user>**************************
 function refresh($conn)
@@ -244,6 +264,10 @@ function insert($conn)
     $user = $_POST["user"];
     // friend
     $friend = $_POST["friend"];
+    // to lower
+    $user = strtolower($user);
+    // to lower 
+    $friend = strtolower($friend);
     // message
     $message = $_POST["message"];
     // tablename
