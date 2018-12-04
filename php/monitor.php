@@ -5,24 +5,26 @@ header('Access-Control-Allow-Origin: *');
 // user 
 $user = $_GET["user"];
 $friend = $_GET["friend"];
+$user = strtolower($user);
+$friend = strtolower($friend);
 $tablename = $user . "_mp";
 // data
 $servername = "localhost:3307";
 $username = "root";
-$password = "logan";
+$password = "test";
 // name of DB
 $database = "project";
-
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $database);
-    // statement
-    $sql = "SELECT Message FROM $tablename WHERE Username = '$friend'";
-    // run statement
-    $result = $conn->query($sql);
-    // create var
-    $data = "";
-    if($result->num_rows > 0) 
-    {
+// Create connection
+$conn = new mysqli($servername, $username, $password, $database);
+// statement
+$sql = "SELECT Message FROM $tablename WHERE Username = '$friend'";
+// excecute sql 
+$result = $conn->query($sql);
+// create var
+$data = "";
+// als er data is 
+if($result->num_rows > 0) 
+{    
     $data = "y";
     // statement 
     $sql2 = "DELETE FROM $tablename WHERE Username = '$friend'";
@@ -32,5 +34,5 @@ $database = "project";
     echo "data:{$data}\n\n";
     // send to client
     flush(); 
-    }
+}
 ?>
