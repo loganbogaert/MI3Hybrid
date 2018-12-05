@@ -7,6 +7,8 @@ $user = $_GET["user"];
 $friend = $_GET["friend"];
 $user = strtolower($user);
 $friend = strtolower($friend);
+$user = trim($user);
+$friend = trim($friend); 
 $tablename = $user . "_mp";
 // data
 $servername = "localhost:3307";

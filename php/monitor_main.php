@@ -1,28 +1,30 @@
 <?php 
-// Start the session
-session_start();
 header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 header('Access-Control-Allow-Origin: *');
 // data
 $servername = "localhost:3307";
 $username = "root";
-$password = "logan";
+$password = "test";
 // name of DB
 $database = "project";
+$user = $_GET["user"];
+// to lower
+$user = strtolower($user);
+$user = trim($user);
 // user
-$user = $_GET["user"] . "_mp";
+$user = $user . "_mp";
 // Create connection
 $conn = new mysqli($servername, $username, $password, $database);
-   // create sql script
-    $sql = "SELECT Username, Id, Sent FROM $user";
-    // execute statement
-    $result = $conn->query($sql);
-    // create data
-    $data = "";
-    // check if rows 
-    if($result->num_rows > 0) 
-    {
+// create sql script
+$sql = "SELECT Username, Id, Sent FROM $user";
+// execute statement
+$result = $conn->query($sql);
+// create data
+$data = "";
+// check if rows 
+if($result->num_rows > 0) 
+{
     while($row = $result->fetch_assoc()) 
     {
         // check if we can send the message
@@ -47,6 +49,5 @@ $conn = new mysqli($servername, $username, $password, $database);
     // send to client
     flush(); 
     }
-    }
-
+} 
 ?>

@@ -19,18 +19,42 @@ $func = $_POST["function"];
 $func($conn);
 // database close 
 $conn->close();
-
+//******************<Updates column>******************
 function test($conn)
 {
+    // get table name
     $user = $_POST["user"]. "_mp";
-    
     // to lower
     $user = strtolower($user);
-
+    // create sql 
     $sql = "UPDATE $user SET Sent = 'n' WHERE Username LIKE '%%'";
-
+    // run query
     $conn->query($sql);
-
+}
+//****************<deletes a user>************
+function deleteUser($conn)
+{
+    // gets user 
+    $user = $_POST["user"];
+    
+    // to lower 
+    $user = strtolower($user);
+    // trim 
+    $user = trim($user);
+    // table
+    $table = $user ."_mp";
+    // sql statement 
+    $sql = "DELETE FROM useraccounts WHERE UserName = '$user'";
+    // use statement 
+    $conn->query($sql);
+    // create other statement 
+    $sql = "DELETE FROM friends where Friend = '$user' OR FriendWith = '$user'";
+    // run statement 
+    $conn->query($sql);
+    // create other statement 
+    $sql = "DROP TABLE $table";
+    // run statement 
+    $conn->query($sql);
 }
 //****************<creates an account>************
 function create($conn)
@@ -41,6 +65,8 @@ function create($conn)
     $password = $_POST["password"];
     // to lower
     $user = strtolower($user);
+    // trim 
+    $user = trim($user);
     // check if username and password are not empty
     if($user != '' && $password != '')
     {
@@ -75,6 +101,8 @@ function login($conn)
     $user = $_POST["user"];
     // to lower
     $user = strtolower($user);
+    // trim 
+    $user = trim($user);
     // get password
     $password = $_POST["password"];
     // check if password and username have been written
@@ -127,7 +155,7 @@ function loadFriends($conn)
                     <td><a onclick=remove('$var')><i class='fa fa-trash' id='deleteicon'></i></a></td>
             </tr>
             <tr>
-                    <td><br></td>
+                    <td></td>
             </tr>
                 ";
         $obj->Response .= $row["FriendWith"] . ";";
@@ -158,9 +186,15 @@ function loadFriendsKotlin($conn)
 function search($conn)
 {
 // get name
+$name = $_POST["name"];
+// trim 
+$name = trim($name);
+// get name
 $name = $_POST["name"] . '%';
 // get user
 $user = $_POST["user"];
+// trim 
+$user = trim($user);
 // write sql query 
 $sql = "SELECT * FROM useraccounts WHERE UserName LIKE '$name' AND UserName <> '$user'";
 //launch query
@@ -198,6 +232,10 @@ function add($conn)
     $user = strtolower($user);
     // to lower
     $name = strtolower($name);
+    // trim
+    $user = trim($user);
+    // trim 
+    $name = trim($name);
     // sql statement
     $sql = "INSERT INTO friends (Friend, FriendWith) VALUES ('$user','$name')";
     // use statement
@@ -218,6 +256,10 @@ function deleteFriend($conn)
     $user = strtolower($user);
     // to lower
     $name = strtolower($name);
+    // trim
+    $user = trim($user);
+    // trim 
+    $name = trim($name);
     // sql statement
     $sql = "DELETE FROM friends WHERE Friend LIKE '$user' AND FriendWith LIKE '$name'";
     // use statement
@@ -268,6 +310,10 @@ function insert($conn)
     $user = strtolower($user);
     // to lower 
     $friend = strtolower($friend);
+    // trim
+    $user = trim($user);
+    // trim 
+    $name = trim($name);
     // message
     $message = $_POST["message"];
     // tablename
